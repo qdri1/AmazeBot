@@ -112,6 +112,11 @@ public class MyNameIsBot extends PlayerThread {
                 return Integer.compare(o2.getPriority(), o1.getPriority());
             }
         });
+
+        for (int i = 0; i < availableDirections.size(); i++) {
+            System.out.println("directions: " + availableDirections.get(i).getDirection() + " / " + availableDirections.get(i).getPriority());
+        }
+
         return availableDirections.get(0).getDirection();
     }
 
@@ -176,7 +181,7 @@ public class MyNameIsBot extends PlayerThread {
         if (closestCell == null) {
             closestCell = getClosestCell(pos);
         }
-        System.out.println("#####row: " + closestCell.row + " / column: " + closestCell.column);
+        System.out.println("#####" + closestCell.row + " / " + closestCell.column);
         for (Cell cell : garbages) {
             if (closestCell.row == cell.row && closestCell.column == cell.column) {
                 return;
@@ -185,7 +190,7 @@ public class MyNameIsBot extends PlayerThread {
         clearWays();
         closestCell = getClosestCell(pos);
     }
-    
+
     private void clearWays() {
         System.out.println("#####cleared");
         wayCell.clear();
