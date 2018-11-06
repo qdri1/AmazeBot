@@ -28,62 +28,68 @@ public class MyNameIsBot extends PlayerThread {
 
     @Override
     public Direction move() {
-        System.out.println("pos: " + pos.row + " / " + pos.column);
-
-//        for (Cell cell : players) {
-//            System.out.println("players: " + cell.row + " / " + cell.column);
-//        }
-        for (Cell cell : garbages) {
-            System.out.println("garbages: " + cell.row + " / " + cell.column);
-        }
-
         return doMagicQdri();
     }
 
     private Direction doMagicQdri() {
         Direction[] ds = Direction.values();
+
         initDirections(ds.length); // available all 4 directions (0 - UP, 1 - RIGHT, 2 - DOWN, 3 - LEFT)
+
         checkGoalExistance(); // always know about the closest garbage goal
+
         generateWallOrWayCell(); // generate and save way or wall that was in your way
 
-        System.out.println("#####closesAndRow: " + closestCell.row + " / " + pos.row);
+        findDirectionToTheGarbage(); // find direction to the closest gargabe
 
+        checkForWalls(); // check for walls
+
+        checkForWays(); // check for ways that was saved before
+
+        int direction = getHighPriorityDirection();
+        saveHistoryOfDirection.add(direction);
+        return ds[direction];
+    }
+
+    private void findDirectionToTheGarbage() {
         if (closestCell.row > pos.row) {
             increasePriority(DOWN, 1);
         } else if (pos.row > closestCell.row) {
             increasePriority(UP, 1);
         }
 
-        System.out.println("#####closesAndRow: " + closestCell.column + " / " + pos.column);
-
         if (closestCell.column > pos.column) {
             increasePriority(RIGHT, 1);
         } else if (pos.column > closestCell.column) {
             increasePriority(LEFT, 1);
         }
+    }
 
+    private void checkForWalls() {
         if (!wallCell.isEmpty()) {
             int count = 0;
             for (Cell cell : wallCell) {
                 if ((pos.row + 1) == cell.row && pos.column == cell.column) {
                     count++;
-                    decreasePriority(DOWN, 10);
+                    decreasePriority(DOWN, 100);
                 } else if ((pos.row - 1) == cell.row && pos.column == cell.column) {
                     count++;
-                    decreasePriority(UP, 10);
+                    decreasePriority(UP, 100);
                 } else if (pos.row == cell.row && (pos.column + 1) == cell.column) {
                     count++;
-                    decreasePriority(RIGHT, 10);
+                    decreasePriority(RIGHT, 100);
                 } else if (pos.row == cell.row && (pos.column - 1) == cell.column) {
                     count++;
-                    decreasePriority(LEFT, 10);
+                    decreasePriority(LEFT, 100);
                 }
             }
             if (count >= 3) {
                 wallCell.add(pos);
             }
         }
+    }
 
+    private void checkForWays() {
         if (!wayCell.isEmpty()) {
             for (Cell cell : wayCell) {
                 if ((pos.row + 1) == cell.row && pos.column == cell.column) {
@@ -97,10 +103,6 @@ public class MyNameIsBot extends PlayerThread {
                 }
             }
         }
-
-        int direction = getHighPriorityDirection();
-        saveHistoryOfDirection.add(direction);
-        return ds[direction];
     }
 
     private int getHighPriorityDirection() {
@@ -110,11 +112,6 @@ public class MyNameIsBot extends PlayerThread {
                 return Integer.compare(o2.getPriority(), o1.getPriority());
             }
         });
-
-        for (int i = 0; i < availableDirections.size(); i++) {
-            System.out.println("#####directions" + i + ") " + availableDirections.get(i).getDirection() + " / " + availableDirections.get(i).getPriority());
-        }
-
         return availableDirections.get(0).getDirection();
     }
 
@@ -136,9 +133,9 @@ public class MyNameIsBot extends PlayerThread {
                 wallCell.add(generateWallCell());
             }
         } else {
-            if (!isWayAlreadyAdded(pos)) {
-                wayCell.add(pos);
-            }
+//            if (!isWayAlreadyAdded(pos)) {
+            wayCell.add(pos);
+//            }
         }
     }
 
@@ -179,12 +176,19 @@ public class MyNameIsBot extends PlayerThread {
         if (closestCell == null) {
             closestCell = getClosestCell(pos);
         }
+        System.out.println("#####row: " + closestCell.row + " / column: " + closestCell.column);
         for (Cell cell : garbages) {
             if (closestCell.row == cell.row && closestCell.column == cell.column) {
                 return;
             }
         }
+        clearWays();
         closestCell = getClosestCell(pos);
+    }
+    
+    private void clearWays() {
+        System.out.println("#####cleared");
+        wayCell.clear();
     }
 
     private boolean isWall() {
