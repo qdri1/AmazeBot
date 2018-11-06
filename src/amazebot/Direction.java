@@ -1,4 +1,4 @@
-package mynameisbot;
+package amazebot;
 
 /**
  *

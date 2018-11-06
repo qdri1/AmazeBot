@@ -1,4 +1,4 @@
-package mynameisbot;
+package amazebot;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,7 +30,7 @@ public abstract class PlayerThread extends Thread {
 
     private void connectToServer() {
         try {
-            Scanner in = new Scanner(new File("C:\\Users\\Kudri\\Documents\\NetBeansProjects\\MyNameIsBot\\src\\mynameisbot\\server.txt"));
+            Scanner in = new Scanner(new File("C:\\Users\\Kudri\\Documents\\NetBeansProjects\\AmazeBot\\src\\amazebot\\server.txt"));
             String a[] = in.nextLine().split(":");
             socket = new Socket(a[0].trim(), Integer.parseInt(a[1].trim()));
             in.close();

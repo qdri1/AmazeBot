@@ -1,4 +1,4 @@
-package mynameisbot;
+package amazebot;
 
 /**
  * class Cell to store position of something such as Player, or Garbage
