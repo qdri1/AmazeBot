@@ -21,6 +21,7 @@ public class MyNameIsBot extends PlayerThread {
     private Cell closestCell = null;
     private List<Cell> wayCell = new ArrayList<>();
     private List<Cell> wallCell = new ArrayList<>();
+    private List<Cell> tupCell = new ArrayList<>();
     private Cell saveCurrentCell = null;
     private List<Integer> saveHistoryOfDirection = new ArrayList<>();
     private List<Priority> availableDirections;
@@ -43,6 +44,8 @@ public class MyNameIsBot extends PlayerThread {
         findDirectionToTheGarbage(); // find direction to the closest gargabe
 
         checkForWalls(); // check for walls
+
+        checkForTups(); // check for tupiks
 
         checkForWays(); // check for ways that was saved before
 
@@ -84,7 +87,23 @@ public class MyNameIsBot extends PlayerThread {
                 }
             }
             if (count >= 3) {
-                wallCell.add(pos);
+                tupCell.add(pos);
+            }
+        }
+    }
+
+    private void checkForTups() {
+        if (!tupCell.isEmpty()) {
+            for (Cell cell : tupCell) {
+                if ((pos.row + 1) == cell.row && pos.column == cell.column) {
+                    decreasePriority(DOWN, 50);
+                } else if ((pos.row - 1) == cell.row && pos.column == cell.column) {
+                    decreasePriority(UP, 50);
+                } else if (pos.row == cell.row && (pos.column + 1) == cell.column) {
+                    decreasePriority(RIGHT, 50);
+                } else if (pos.row == cell.row && (pos.column - 1) == cell.column) {
+                    decreasePriority(LEFT, 50);
+                }
             }
         }
     }
