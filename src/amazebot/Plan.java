@@ -16,9 +16,10 @@ public class Plan {
     private boolean historyOfWay = true;
     private boolean saveWaysAsSoonAsPossible = true;
     private boolean useThemInYourLogic = true;
+    private boolean eachStepCheckGarbageExistance = true;
 
-    private boolean eachStepCheckGarbageExistance = false;
     private boolean doNotForgetToTakeAnotherGarbageIfItCloseToYouThanMainGoalGarbage = false;
     private boolean thinkAboutOpponents = false;
+    private boolean saveAllWallsThatYouCanPredictOnStart = false;
 
 }
