@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public abstract class PlayerThread extends Thread {
 
-    public String name = "Dummy";
+    public String name = "Amaze";
     public Socket socket;
     public Cell pos;
     public Cell[] players;
@@ -95,7 +95,6 @@ public abstract class PlayerThread extends Thread {
                 while (true) {
 
                     String[] a = in.readLine().split(" "); // get current position
-                    System.out.println("a1: " + a);
                     pos = new Cell(Integer.parseInt(a[0]), Integer.parseInt(a[1]));
 
                     int size = Integer.parseInt(in.readLine()); // number of players
@@ -103,7 +102,6 @@ public abstract class PlayerThread extends Thread {
                     players = new Cell[size];
                     for (int i = 0; i < size; i++) {
                         a = in.readLine().split(" "); // players coordinates
-                         System.out.println("a2: " + a);
                         players[i] = new Cell(Integer.parseInt(a[0]), Integer.parseInt(a[1]));
                     }
 
@@ -112,7 +110,6 @@ public abstract class PlayerThread extends Thread {
                     garbages = new Cell[size];
                     for (int i = 0; i < size; i++) {
                         a = in.readLine().split(" "); //garbages coordinates
-                         System.out.println("a3: " + a);
                         garbages[i] = new Cell(Integer.parseInt(a[0]), Integer.parseInt(a[1]));
                     }
 

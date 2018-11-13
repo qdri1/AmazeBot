@@ -15,7 +15,7 @@ import java.util.Random;
  *
  * @author Kudri
  */
-public class MyNameIsBot extends PlayerThread {
+public class MyNameIsAmaze extends PlayerThread {
 
     Random r = new Random();
     private Cell closestCell = null;
@@ -266,4 +266,5 @@ public class MyNameIsBot extends PlayerThread {
         distance = Math.sqrt(distance);
         return distance;
     }
+
 }
