@@ -8,8 +8,9 @@ package amazebot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
 
 /**
  *
@@ -17,7 +18,6 @@ import java.util.Random;
  */
 public class MyNameIsAmaze extends PlayerThread {
 
-    Random r = new Random();
     private Cell closestCell = null;
     private List<Cell> wayCell = new ArrayList<>();
     private List<Cell> wallCell = new ArrayList<>();
@@ -26,6 +26,9 @@ public class MyNameIsAmaze extends PlayerThread {
     private List<Integer> saveHistoryOfDirection = new ArrayList<>();
     private List<Priority> availableDirections;
     private static final int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
+    private boolean calledOnlyOnce = false;
+    
+    private Map<Integer, List<Cell>> saveHistoryOfAllPlayerPos = new HashMap<>();
 
     @Override
     public Direction move() {
@@ -34,6 +37,8 @@ public class MyNameIsAmaze extends PlayerThread {
 
     private Direction doMagicQdri() {
         Direction[] ds = Direction.values();
+
+        calledOnlyOnce();
 
         initDirections(ds.length); // available all 4 directions (0 - UP, 1 - RIGHT, 2 - DOWN, 3 - LEFT)
 
@@ -52,6 +57,35 @@ public class MyNameIsAmaze extends PlayerThread {
         int direction = getHighPriorityDirection();
         saveHistoryOfDirection.add(direction);
         return ds[direction];
+    }
+
+    private void saveAllPlayersLastPosition() {
+        for (int i = 0; i < players.length; i++) {
+            List<Cell> itemsList = saveHistoryOfAllPlayerPos.get(i);
+
+            // if list does not exist create it
+            if (itemsList == null) {
+                itemsList = new ArrayList<>();
+                itemsList.add(players[i]);
+                saveHistoryOfAllPlayerPos.put(i, itemsList);
+            } else {
+                // add if item is not already in list
+                if (!itemsList.contains(players[i])) {
+                    itemsList.add(players[i]);
+                    saveHistoryOfAllPlayerPos.put(i, itemsList);
+                }
+            }
+        }
+    }
+
+    private void calledOnlyOnce() {
+        if (!calledOnlyOnce) {
+            calledOnlyOnce = true;
+            for (int i = 1; i <= 50; i++) {
+                wallCell.add(new Cell(0, i));
+                wallCell.add(new Cell(i, 0));
+            }
+        }
     }
 
     private void findDirectionToTheGarbage() {
