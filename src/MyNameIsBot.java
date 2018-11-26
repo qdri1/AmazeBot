@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package amazebot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -266,4 +265,9 @@ public class MyNameIsBot extends PlayerThread {
         distance = Math.sqrt(distance);
         return distance;
     }
+
+    public static void main(String[] args) {
+        new MyNameIsBot().start();
+    }
+
 }

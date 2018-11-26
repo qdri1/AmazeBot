@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package amazebot;
+
 
 /**
  *
@@ -17,9 +17,12 @@ public class Plan {
     private boolean saveWaysAsSoonAsPossible = true;
     private boolean useThemInYourLogic = true;
     private boolean eachStepCheckGarbageExistance = true;
+    private boolean saveAllWallsThatYouCanPredictOnStart = true;
 
     private boolean doNotForgetToTakeAnotherGarbageIfItCloseToYouThanMainGoalGarbage = false;
     private boolean thinkAboutOpponents = false;
-    private boolean saveAllWallsThatYouCanPredictOnStart = false;
+    private boolean tryToGoToAreaWhereAreManyGarbages = false;
+    private boolean checkPlayersPositionsAreTheyInOneKvadrant = false;
+    private boolean saveCleanWays = false;
 
 }
